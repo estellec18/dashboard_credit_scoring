@@ -14,14 +14,24 @@ def local_comps(data, df_feat):
     #fig.suptitle("Positionnement du demandeur de crédit sur les 9 variables explicatives principales\n(les valeurs pour le demandeur de crédit sont indiquées en orange)\n\n", fontsize=18)
     i = 0
     j = 0
+    info=[]
     for feat in list_feat:
         if len(data[feat].value_counts().index)>5:
             data[feat].plot(kind='hist', ax=axs[i,j])
             axs[i,j].set_title(feat)
             axs[i,j].axvline(x=df_feat.loc[feat,"Value"], color='orange', linewidth=2)
+            axs[i,j].tick_params(axis='x', labelsize=8)
+            info.append(f"Variable : {feat}")
+            info.append(f"\tValeur pour le client : {df_feat.loc[feat,'Value']}")
+            info.append(f"\tMin : {data[feat].min():.2f} -- Max : {data[feat].max():.2f} -- Moyenne : {data[feat].mean():.2f}\n")
+            info.append(f"------")
         else:
+            list_val = data[feat].value_counts(normalize=True).tolist()
             x = df_feat.loc[feat,"Value"]
             possible_cat = data[feat].value_counts().index.to_list()
+            info.append(f"Variable : {feat}")
+            info.append(f"\tValeur pour le client : {x} (comme {data[feat].value_counts(normalize=True)[x]*100}% de la population étudiée)\n")
+            info.append(f"------")
             colors = []
             explode = []
             for cat in possible_cat:
@@ -40,25 +50,38 @@ def local_comps(data, df_feat):
                     collec[2][idx_client].set_fontweight("bold")
                     collec[2][idx_client].set_fontsize(13)
                 else:
-                    collec[1][idx].set_fontsize(10)
-                    collec[2][idx].set_fontsize(10)
+                    if list_val[idx] > 0.04 :
+                        collec[1][idx].set_fontsize(10)
+                        collec[2][idx].set_fontsize(10)
+                        collec[2][idx].set_color("white")
+                        collec[2][idx].set_fontweight("bold")
+                    else:
+                        collec[1][idx].set_fontsize(10)
+                        collec[2][idx].remove()
             axs[i,j].set_title(feat)
         j+=1
         if j>2:
             i+=1
             j=0
     fig.tight_layout()
-    return(fig)
+    return(fig, info)
 
 def custom_comps(data, num_client, feat):
     x = data.loc[str(num_client), feat]
     fig, ax = plt.subplots(figsize=(3,3))
+    info = []
     if len(data[feat].value_counts().index)>5:
         data[feat].plot(kind='hist')
         ax.set_title(feat)
         ax.axvline(x, color='orange', linewidth=2)
+        ax.tick_params(axis='x', labelsize=8)
+        info.append(f"\tValeur pour le client : {x}")
+        info.append(f"\tMin : {data[feat].min():.2f} -- Max : {data[feat].max():.2f} -- Moyenne : {data[feat].mean():.2f}\n")
     else:
+        list_val = data[feat].value_counts(normalize=True).tolist()
         possible_cat = data[feat].value_counts().index.to_list()
+        info.append(f"\tValeur pour le client : {x}")
+        info.append(f"(comme {data[feat].value_counts(normalize=True)[x]*100}% de la population étudiée)\n")
         colors = []
         explode = []
         for cat in possible_cat:
@@ -77,11 +100,17 @@ def custom_comps(data, num_client, feat):
                 collec[2][idx_client].set_fontweight("bold")
                 collec[2][idx_client].set_fontsize(13)
             else:
-                collec[1][i].set_fontsize(6)
-                collec[2][i].set_fontsize(6)
+                if list_val[i] > 0.04 :
+                    collec[1][i].set_fontsize(6)
+                    collec[2][i].set_fontsize(6)
+                    collec[2][i].set_color("white")
+                    collec[2][i].set_fontweight("bold")
+                else:
+                    collec[1][i].set_fontsize(6)
+                    collec[2][i].remove()
         ax.set_title(feat)
     #print(features[features["Row"]==feat]["Description"].values[0])
-    return(fig)
+    return(fig, info)
 
 def scatter(data, feat1, feat2):
     fig, ax = plt.subplots(figsize=(5,5))
@@ -266,12 +295,15 @@ if mycheckb:
     
     with tab4:
         placeholder4.empty()
-        fig1 = local_comps(data2, df)
+        fig1, info1 = local_comps(data2, df)
         st.markdown("<h1 style='text-align: center; font-size:20px;'>Positionnement du demandeur de crédit sur les 9 variables explicatives principales</h1>", unsafe_allow_html=True)
         st.markdown("<h1 style='text-align: center; font-size:18px;'>(les valeurs pour le demandeur de crédit sont indiquées en orange 🔶)</h1>", unsafe_allow_html=True)
         st.markdown('##')
         try:
             st.pyplot(fig1)
+            st.markdown("<h1 style=font-size:15px;'>Informations détaillées</h1>", unsafe_allow_html=True)
+            for el in info1:
+                st.text(el)
         except:
             st.markdown("L'image qui devrait apparaitre à cet emplacement correspond à une série de graphiques indiquant le positionnement du demandeur de crédit par rapport à ses pairs sur les variables explicatives principales")
 
@@ -288,7 +320,10 @@ if mycheckb:
                 schema2 = {"num_client": 0, "feat":option2}
                 req_last = requests.post("https://credit-app-backend-730c22127ecd.herokuapp.com/description", json=schema2)
                 resultat_last = req_last.json()
-                st.markdown(resultat_last['description'])
-                fig2 = custom_comps(data, option, option2)
+                st.markdown("Description de la variable:")
+                st.text(resultat_last['description'])
+                fig2, info2 = custom_comps(data, option, option2)
                 st.pyplot(fig2)
+                for el in info2:
+                    st.text(el)
         
