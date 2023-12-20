@@ -16,3 +16,4 @@ Ce repository recense les fichiers nécessaires au déploiement du dashboard (d�
 
 [lien vers le repository de l'API](https://github.com/estellec18/app_credit_scoring)
 
+<img width="1359" alt="image" src="https://github.com/estellec18/dashboard_credit_scoring/assets/126951321/c02d441a-d044-4d27-8b91-a9556601f31b">
