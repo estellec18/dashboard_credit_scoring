@@ -22,8 +22,8 @@ Ce repository recense les fichiers nécessaires au déploiement du dashboard (d�
 **copies d'écran du dashboard**
 
 ##
-    <img align="left" width="1365" src="https://github.com/estellec18/dashboard_credit_scoring/assets/126951321/6e8aadee-5672-49ed-a600-75514298f0c0">
+![image](https://github.com/estellec18/dashboard_credit_scoring/assets/126951321/6e8aadee-5672-49ed-a600-75514298f0c0)
 ##
-    <img width="900" src="https://github.com/estellec18/dashboard_credit_scoring/assets/126951321/d60553c7-7a8a-4036-a3a6-261b1f930a6b">
+![image](https://github.com/estellec18/dashboard_credit_scoring/assets/126951321/d60553c7-7a8a-4036-a3a6-261b1f930a6b)
 ##
-    <img width="628" src="https://github.com/estellec18/dashboard_credit_scoring/assets/126951321/a114e172-4b9c-4860-8a2a-fe105a07791e">
+![image](https://github.com/estellec18/dashboard_credit_scoring/assets/126951321/a114e172-4b9c-4860-8a2a-fe105a07791e)
