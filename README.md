@@ -1,7 +1,8 @@
 # dashboard_credit_scoring
-*Projet développé dans le cadre de la formation Data Scientist OC (RNCP niveau 7)*
+*Projet développé dans le cadre du parcours Data Scientist d'OpenClassrooms en partenariat avec CentralSupélec (RNCP niveau 7)*
 
-Objectif : à partir de l'API préalablement déployée, réaliser un dashboard à destination des chargés d'étude afin qu'ils puissent expliquer à leur client les décisions relatives à leur demande de crédit.
+## Objectif
+A partir de l'API préalablement déployée, réaliser un dashboard à destination des chargés d'étude afin qu'ils puissent expliquer à leur client les décisions relatives à leur demande de crédit.
 
 Le dashboard interactif prévoit les éléments suivants :
 - visualisation et interprétation du score (proba et comparaison au seuil)
